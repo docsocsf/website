@@ -77,15 +77,20 @@ class GithubProjects extends React.Component {
 
   render() {
     let repos = this.state.repos;
+    let projects = null;
     if (repos.length === 0) {
-      return (<ul>{[1,2,3].map(EmptyGithubProject)}</ul>);
+      projects = [1,2,3].map(EmptyGithubProject);
+    } else {
+      repos = repos.sort((a, b) => b.pushed_at.localeCompare(a.pushed_at)).slice(0, 3);
+      projects = repos.map(GithubProject);
     }
-    repos = repos.sort((a, b) => b.pushed_at.localeCompare(a.pushed_at)).slice(0, 3);
-    const projects = repos.map(GithubProject);
     return (
-      <ul>
-        {projects}
-      </ul>
+      <div>
+        <h2>Featured Projects</h2>
+        <ul id="featured-projects-list">
+          {projects}
+        </ul>
+      </div>
     );
   }
 }
